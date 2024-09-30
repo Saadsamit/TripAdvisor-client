@@ -4,7 +4,8 @@ import clsx from "clsx";
 
 import { siteConfig } from "@/src/config/site";
 import { fontSans } from "@/src/config/fonts";
-import { Providers } from "./providers";
+import { Providers } from "../utils/Provider/providers";
+import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
   title: {
@@ -22,10 +23,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const token = cookies().get("accessToken")?.value.split(' ')[1]
+  
   return (
     <html suppressHydrationWarning lang="en">
       <body className={clsx("font-sans", fontSans.variable)}>
-        <Providers>{children}</Providers>
+        <Providers token={token}>{children}</Providers>
       </body>
     </html>
   );

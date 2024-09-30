@@ -2,25 +2,39 @@
 
 import Button from "@/src/components/UI/Button";
 import MyInput from "@/src/components/UI/MyInput";
-import { FieldValues, FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import authService from "@/src/services/authService/authService";
+import { useRouter } from "next/navigation";
+import { signupSchema } from "@/src/Schemas/AuthSchemas";
 
 const page = () => {
-  const methods = useForm();
+  const router = useRouter();
+  const { mutate: signupMutate, isPending, data } = authService.signUp();
+  const methods = useForm({
+    resolver: zodResolver(signupSchema),
+  });
   const { handleSubmit } = methods;
+  
+  if (data?.success) {
+    router.push("/login");
+  }
 
-  const onSubmit:SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
-  };
   return (
     <div className="border-sky-400 border shadow-xl w-96 rounded-xl p-4 ">
-        <h3 className="text-center text-3xl font-bold mb-5 text-sky-400">Sign Up</h3>
+      <h3 className="text-center text-3xl font-bold mb-5 text-sky-400">
+        Sign Up
+      </h3>
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <MyInput label="picture" type="text" required={true} />
-          <MyInput label="name" type="text" required={true} />
-          <MyInput label="email" type="email" required={true} />
-          <MyInput label="password" type="password" required={true} />
-          <Button type="submit" className="w-full">Sign Up</Button>
+        <form onSubmit={handleSubmit((data) => signupMutate(data))}>
+          <MyInput label="picture" type="text" />
+          <MyInput label="name" type="text" />
+          <MyInput label="email" type="email" />
+          <MyInput label="password" type="password" />
+          <Button type="submit" className="w-full" loading={isPending}>
+            Sign Up
+          </Button>
         </form>
       </FormProvider>
     </div>
