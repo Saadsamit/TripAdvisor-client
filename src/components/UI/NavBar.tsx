@@ -25,7 +25,7 @@ import { useUser } from "@/src/utils/Provider/UserProvider";
 import { LogOut } from "@/src/services/authService/authApi";
 import { privateRoute } from "@/src/constant";
 
-export const Navbar = () => {
+const Navbar = () => {
   const router = useRouter()
   const { user, isLoading } = useUser();
   const pathname = usePathname();
@@ -38,7 +38,7 @@ export const Navbar = () => {
   };
 
   return (
-    <NextUINavbar shouldHideOnScroll>
+    <NextUINavbar shouldHideOnScroll className="border-b border-sky-100">
       <NavbarBrand>
         <Link href="/" className="font-bold text-inherit text-sky-500">
           TripAdvisor
@@ -114,3 +114,5 @@ export const Navbar = () => {
     </NextUINavbar>
   );
 };
+
+export default Navbar

@@ -22,7 +22,7 @@ const page = () => {
   }
 
   return (
-    <div className="border-sky-400 border shadow-xl w-96 rounded-xl p-4 ">
+    <div className="border-sky-400 border shadow-xl w-96 rounded-xl p-4 bg-white">
       <h3 className="text-center text-3xl font-bold mb-5 text-sky-400">
         Sign Up
       </h3>
