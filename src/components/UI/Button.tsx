@@ -6,11 +6,26 @@ type props = {
   children: React.ReactNode;
   onClick?: MouseEventHandler<HTMLButtonElement> | undefined;
   link?: string;
+  type?: "button" | "submit" | "reset" | undefined;
+  className?: string;
+  loading?: boolean;
 };
 
-const Button = ({ children, onClick, link }: props) => {
+const Button = ({
+  children,
+  onClick,
+  link,
+  type,
+  className,
+  loading,
+}: props) => {
   const button = (
-    <NextButton onClick={onClick} className="bg-sky-400 text-white">
+    <NextButton
+      isLoading={loading}
+      type={type}
+      onClick={onClick}
+      className={`bg-sky-400 text-white ${className}`}
+    >
       {children}
     </NextButton>
   );
