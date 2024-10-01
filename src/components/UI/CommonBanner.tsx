@@ -1,5 +1,5 @@
 "use client";
-import banner from "@/src/assets/banner-2.jpg";
+import banner from "@/src/assets/aboutus.jpg";
 import { CSSProperties } from "react";
 import Container from "./Container";
 import { usePathname } from "next/navigation";
