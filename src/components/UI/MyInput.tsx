@@ -10,7 +10,7 @@ type TInput = {
   name?: string;
 };
 
-const MyInput = ({ type, label, name}: TInput) => {
+const MyInput = ({ type, label, name }: TInput) => {
   let InputName = name;
   if (!name) InputName = label;
   return (
@@ -18,11 +18,10 @@ const MyInput = ({ type, label, name}: TInput) => {
       name={InputName as string}
       render={({ field, fieldState: { error } }) => (
         <Input
-          {...field}classNames={{
+          {...field}
+          classNames={{
             label: "capitalize",
-            inputWrapper: [
-                "mb-3"
-            ]
+            inputWrapper: ["mb-3"],
           }}
           type={type}
           label={label}

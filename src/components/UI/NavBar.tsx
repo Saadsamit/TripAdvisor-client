@@ -26,9 +26,17 @@ import { LogOut } from "@/src/services/authService/authApi";
 import { privateRoute } from "@/src/constant";
 
 const Navbar = () => {
-  const router = useRouter()
+  const router = useRouter();
   const { user, isLoading } = useUser();
   const pathname = usePathname();
+  let navLink = [...siteConfig.navItems]
+
+  if(user){
+    navLink = [...navLink, {
+      label: "Feed",
+      href: "/news-feed",
+    }]
+  }
 
   const handleLogout = () => {
     LogOut();
@@ -45,7 +53,7 @@ const Navbar = () => {
         </Link>
       </NavbarBrand>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        {siteConfig.navItems.map((item, index) => (
+        {navLink.map((item, index) => (
           <NavbarItem key={`${item}-${index}`}>
             <Link
               className={`${
@@ -79,7 +87,11 @@ const Navbar = () => {
                   <p className="font-semibold">{user?.email}</p>
                 </DropdownItem>
                 <DropdownItem key="settings">My Profile</DropdownItem>
-                <DropdownItem key="logout" color="danger" onClick={handleLogout}>
+                <DropdownItem
+                  key="logout"
+                  color="danger"
+                  onClick={handleLogout}
+                >
                   Log Out
                 </DropdownItem>
               </DropdownMenu>
@@ -95,7 +107,7 @@ const Navbar = () => {
 
       <NavbarMenu>
         <div className="mx-4 mt-2 flex flex-col gap-2">
-          {siteConfig.navItems.map((item, index) => (
+          {navLink.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link
                 className={`${
@@ -115,4 +127,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar
+export default Navbar;
