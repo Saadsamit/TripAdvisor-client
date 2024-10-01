@@ -7,3 +7,10 @@ export type TcurrentUser = {
     picture: string;
     name: string;
   }
+
+export type TUser = {
+  verified: boolean;
+  posts: number;
+  followers: number;
+  following: number;
+} & TcurrentUser;

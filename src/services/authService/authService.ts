@@ -1,6 +1,6 @@
 import { FieldValues } from "react-hook-form";
-import { loginApi, signUpApi } from "./authApi";
-import { useMutation } from "@tanstack/react-query";
+import { loginApi, MyProfileApi, signUpApi, updateUserApi } from "./authApi";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import toastTheme from "@/src/styles/toastTheme";
 
@@ -36,9 +36,32 @@ const login = () => {
   });
 };
 
+const updateUser = () => {
+  return useMutation({
+    mutationKey: ["updateUser"],
+    mutationFn: async (data: FieldValues) => await updateUserApi(data),
+    onSettled(data) {
+      if (data?.success) {
+        toast.success(data?.message, { ...toastTheme });
+      } else {
+        toast.error(data?.message || "Something went wrong!", {
+          ...toastTheme,
+        });
+      }
+    },
+  });
+};
+
+const myProfile = () => {
+  return useQuery({ queryKey: ['profile'], queryFn: MyProfileApi })
+  
+};
+
 const authService = {
   login,
-  signUp
+  signUp,
+  updateUser,
+  myProfile
 };
 
 export default authService;

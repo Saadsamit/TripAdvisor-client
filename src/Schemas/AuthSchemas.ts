@@ -11,3 +11,8 @@ export const signupSchema = z.object({
     password: z.string({ required_error: "password is required" }).min(6),
     picture: z.string({ required_error: "picture is required" }),
   });
+
+export const updateUserSchema = z.object({
+    name: z.string({ required_error: "name is required" }),
+    picture: z.string({ required_error: "picture is required" }),
+  });

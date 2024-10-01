@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
 import { jwtDecode } from "jwt-decode";
 import { TcurrentUser } from "@/src/types/userType";
+import { envConfig } from "@/src/config/envConfig";
 
 export const signUpApi = async (data: FieldValues)=>{
     const res = await axiosInstance.post(`/auth/signup`, data);
@@ -28,6 +29,16 @@ export const getCurrentUser = () => {
     return decoded
   };
 
-export const LogOut = () => {
-    cookies().delete("accessToken");
+export const updateUserApi = async (data: FieldValues)=>{
+    const res = await axiosInstance.patch(`/auth/update-profile`, data);
+    return res?.data
+}
+
+export const LogOut = async () => {
+    await cookies().delete("accessToken");
+  };
+  
+  export const MyProfileApi = async () => {
+    const res = await axiosInstance.get("/user/my-profile");
+    await res.data;
   };

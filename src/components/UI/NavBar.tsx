@@ -38,12 +38,16 @@ const Navbar = () => {
     }]
   }
 
-  const handleLogout = () => {
-    LogOut();
+  const handleLogout = async () => {
+   await LogOut();
     if (privateRoute.some((route) => pathname.match(route))) {
       router.push("/");
     }
   };
+
+  const handleLink = (link:string)=>{
+    router.push(link)
+  }
 
   return (
     <NextUINavbar shouldHideOnScroll className="border-b border-sky-100">
@@ -86,7 +90,7 @@ const Navbar = () => {
                   <p className="font-semibold">Signed in as</p>
                   <p className="font-semibold">{user?.email}</p>
                 </DropdownItem>
-                <DropdownItem key="settings">My Profile</DropdownItem>
+                <DropdownItem key="settings" onClick={()=>handleLink("/profile")}>My Profile</DropdownItem>
                 <DropdownItem
                   key="logout"
                   color="danger"
