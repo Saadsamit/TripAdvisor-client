@@ -2,9 +2,7 @@ import { jwtDecode } from "jwt-decode";
 import { TcurrentUser } from "@/src/types/userType";
 import {
   createContext,
-  Dispatch,
   ReactNode,
-  SetStateAction,
   useContext,
   useEffect,
   useState,
@@ -13,7 +11,6 @@ import {
 interface IUserProviderValues {
   user: TcurrentUser | null;
   isLoading: boolean;
-  setUser: (user: TcurrentUser | null) => void;
 }
 
 const UserContext = createContext<IUserProviderValues | undefined>(undefined);
@@ -37,7 +34,7 @@ const UserProvider = ({ children, token }: { children: ReactNode, token: string 
   }, [isLoading, token]);
 
   return (
-    <UserContext.Provider value={{ user, setUser, isLoading }}>
+    <UserContext.Provider value={{ user, isLoading }}>
       {children}
     </UserContext.Provider>
   );

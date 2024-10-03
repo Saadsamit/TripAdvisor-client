@@ -16,6 +16,7 @@ import authService from "@/src/services/authService/authService";
 import { updateUserSchema } from "@/src/Schemas/AuthSchemas";
 import { TUser } from "@/src/types/userType";
 import { revalidateTag } from "next/cache";
+import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 
 type props = {
   userData: TUser;
@@ -30,8 +31,8 @@ const EditProfile = ({ userData }: props) => {
   });
   const { handleSubmit } = methods;
 
-  const onSubmit: SubmitHandler<FieldValues> = (data)=>{
-    updateMutate(data)
+  const onSubmit: SubmitHandler<FieldValues> = async (data)=>{
+    await updateMutate(data)
     onOpenChange()
   }
 

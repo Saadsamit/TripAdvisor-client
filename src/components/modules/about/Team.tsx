@@ -1,3 +1,5 @@
+"use server"
+
 import { envConfig } from "@/src/config/envConfig";
 
 interface TTeam {
@@ -17,7 +19,7 @@ const Team = async () => {
       </h3>
       <div className="grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-4">
       {data?.data?.map((item: TTeam) => (
-          <div className="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+          <div className="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" key={item?._id}>
           <img className="rounded-t-lg w-full" src={item?.image} alt="" />
           <div className="p-5 text-center">
             <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">

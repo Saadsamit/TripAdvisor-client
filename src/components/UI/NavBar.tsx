@@ -24,30 +24,35 @@ import { usePathname, useRouter } from "next/navigation";
 import { useUser } from "@/src/utils/Provider/UserProvider";
 import { LogOut } from "@/src/services/authService/authApi";
 import { privateRoute } from "@/src/constant";
+import { CiSquarePlus } from "react-icons/ci";
+import { userRole } from "@/src/const/user";
 
 const Navbar = () => {
   const router = useRouter();
   const { user, isLoading } = useUser();
   const pathname = usePathname();
-  let navLink = [...siteConfig.navItems]
+  let navLink = [...siteConfig.navItems];
 
-  if(user){
-    navLink = [...navLink, {
-      label: "Feed",
-      href: "/news-feed",
-    }]
+  if (user) {
+    navLink = [
+      ...navLink,
+      {
+        label: "Feed",
+        href: "/news-feed",
+      },
+    ];
   }
 
   const handleLogout = async () => {
-   await LogOut();
+    await LogOut();
     if (privateRoute.some((route) => pathname.match(route))) {
       router.push("/");
     }
   };
 
-  const handleLink = (link:string)=>{
-    router.push(link)
-  }
+  const handleLink = (link: string) => {
+    router.push(link);
+  };
 
   return (
     <NextUINavbar shouldHideOnScroll className="border-b border-sky-100">
@@ -90,7 +95,23 @@ const Navbar = () => {
                   <p className="font-semibold">Signed in as</p>
                   <p className="font-semibold">{user?.email}</p>
                 </DropdownItem>
-                <DropdownItem key="settings" onClick={()=>handleLink("/profile")}>My Profile</DropdownItem>
+                {user && user?.role === userRole.user ? (
+                    <DropdownItem
+                      key="createPost"
+                      onClick={() => handleLink("/news-feed/create")}
+                    >
+                      <div className="flex ">
+                        <CiSquarePlus className="text-xl text-sky-700" /> New
+                        Post
+                      </div>
+                    </DropdownItem>
+                  ) : <DropdownItem className="hidden"></DropdownItem>}
+                <DropdownItem
+                  key="settings"
+                  onClick={() => handleLink("/profile")}
+                >
+                  My Profile
+                </DropdownItem>
                 <DropdownItem
                   key="logout"
                   color="danger"

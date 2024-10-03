@@ -6,11 +6,11 @@ const AuthRoutes = ["/login", "/signup"];
 
 type Role = keyof typeof roleBasedRoutes;
 
-const commonRoutes = ["/news-feed"]
+const commonRoutes = ["/news-feed", "/profile"]
 
 const roleBasedRoutes = {
-  admin: [/^\/admin/, ...commonRoutes],
-  user: [/^\/user/, ...commonRoutes],
+  admin: [/^\/admin/, ...commonRoutes,],
+  user: [/^\/user/, ...commonRoutes, /^\/news-feed/],
 };
 
 export async function middleware(request: NextRequest) {
@@ -40,5 +40,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/user", "/news-feed", "/admin", "/login", "/signup"],
+  matcher: ["/user", "/profile", "/news-feed/:page*", "/news-feed", "/admin", "/login", "/signup"],
 };

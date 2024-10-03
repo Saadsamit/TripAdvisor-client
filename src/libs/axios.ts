@@ -3,6 +3,7 @@
 import axios from "axios";
 import { cookies } from "next/headers";
 import { envConfig } from "../config/envConfig";
+import { redirect } from "next/navigation";
 
 const axiosInstance = axios.create({
   baseURL: envConfig.serverUrl as string,
@@ -25,13 +26,12 @@ axiosInstance.interceptors.response.use(
   (res) => {
     return res;
   },
-  (error) => {
+ async (error) => {
     const config = error.config;
 
     if (error?.response?.status === 401 && !config?.sent) {
-      config.sent = true;
-      cookies().delete("accessToken");
-      return Promise.reject(error);
+      Promise.reject(error)
+      return redirect("/login")
     } else {
       return Promise.reject(error);
     }
