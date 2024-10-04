@@ -9,6 +9,7 @@ type props = {
   type?: "button" | "submit" | "reset" | undefined;
   className?: string;
   loading?: boolean;
+  size?: "sm" | "md" | "lg";
 };
 
 const Button = ({
@@ -18,12 +19,14 @@ const Button = ({
   type,
   className,
   loading,
+  size = "md",
 }: props) => {
   const button = (
     <NextButton
       isLoading={loading}
       type={type}
       onClick={onClick}
+      size={size}
       className={`bg-sky-400 text-white ${className}`}
     >
       {children}

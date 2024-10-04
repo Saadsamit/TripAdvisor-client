@@ -33,7 +33,7 @@ const Posts = () => {
         ))}
       </div>
     );
-  console.log(data);
+    
   return data?.data ? (
     <div className="py-4 grid md:grid-cols-3 sm:grid-cols-2 gap-4">
       {data?.data?.map((item: TPost) => (

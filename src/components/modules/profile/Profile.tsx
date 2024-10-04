@@ -18,7 +18,7 @@ const Profile = () => {
     <div className="sm:flex sm:space-y-0 space-y-4 items-center border-b py-10">
       <div className="text-lg flex flex-col sm:text-start text-center sm:w-1/3">
         <Image
-          src={user?.picture}
+          src={user?.picture.startsWith('http') ? user?.picture : "" }
           alt={user?.name}
           width={300}
           height={300}

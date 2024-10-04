@@ -6,7 +6,7 @@ import { Controller } from "react-hook-form";
 
 type TInput = {
   type: HTMLInputTypeAttribute;
-  label: string;
+  label?: string;
   name?: string;
 };
 
