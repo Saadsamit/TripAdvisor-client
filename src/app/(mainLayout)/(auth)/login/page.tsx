@@ -17,7 +17,7 @@ const page = () => {
   const router = useRouter()
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect");
-  const { mutate: loginMutate, isPending, isSuccess, data,} = authService.login();
+  const { mutate: loginMutate, isPending, isSuccess, data} = authService.login();
   const methods = useForm({
     resolver: zodResolver(LogInScheme),
     defaultValues: {

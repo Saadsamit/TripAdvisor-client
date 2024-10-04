@@ -11,6 +11,6 @@ export type TcurrentUser = {
 export type TUser = {
   verified: boolean;
   posts: number;
-  followers: number;
-  following: number;
+  followers: string[];
+  following: string[];
 } & TcurrentUser;

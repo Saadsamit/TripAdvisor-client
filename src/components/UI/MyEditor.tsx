@@ -3,18 +3,20 @@ import { Dispatch, SetStateAction, useMemo } from "react";
 import 'react-quill/dist/quill.snow.css';
 
 type props = {
-  editorState: string;
-  setEditorState: Dispatch<SetStateAction<string>>;
+  value: string;
+  setValue: Dispatch<SetStateAction<string>>;
 };
 
 const MyEditor = ({ 
-  editorState,
-   setEditorState
+  value,
+  setValue
  }: props) => {
   const ReactQuill = useMemo(() => dynamic(() => import('react-quill'), { ssr: false }),[]);
+  
+
   return (
     <div className="my-10">
-      <ReactQuill theme="snow" value={editorState} onChange={setEditorState} />
+      <ReactQuill theme="snow" value={value} onChange={setValue} />
     </div>
   );
 };

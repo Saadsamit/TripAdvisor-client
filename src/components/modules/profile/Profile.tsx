@@ -29,11 +29,11 @@ const Profile = () => {
       </div>
       <div className="sm:text-xl text-lg text-center flex justify-between font-bold capitalize sm:w-2/3">
         <div>
-          <h3>{user?.followers}</h3>
+          <h3>{user?.followers?.length}</h3>
           <h3>followers</h3>
         </div>
         <div>
-          <h3>{user?.following}</h3>
+          <h3>{user?.following?.length}</h3>
           <h3>following</h3>
         </div>
         <div>
