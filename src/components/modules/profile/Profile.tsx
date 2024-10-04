@@ -4,6 +4,7 @@ import Image from "next/image";
 import { TUser } from "@/src/types/userType";
 import EditProfile from "./EditProfile";
 import authService from "@/src/services/authService/authService";
+import { VscVerifiedFilled } from "react-icons/vsc";
 import { Skeleton } from "@nextui-org/skeleton";
 
 const Profile = () => {
@@ -24,7 +25,7 @@ const Profile = () => {
           height={300}
           className="sm:size-30 sm:mx-0 mx-auto rounded-full size-20"
         />
-        <h3>{user?.name}</h3>
+        <h3 className="flex flex-wrap items-center">{user?.name} {user?.verified && <VscVerifiedFilled className="text-sky-400 text-lg ml-2" />}</h3>
         <h4>{user?.email}</h4>
       </div>
       <div className="sm:text-xl text-lg text-center flex justify-between font-bold capitalize sm:w-2/3">

@@ -18,6 +18,16 @@ export const myGetAPost = async (id: string) => {
   return data;
 };
 
+export const myDeletePostApi = async (id: string) => {
+  const { data } = await axiosInstance.delete(`/post/my-post/${id}`);
+  return data;
+};
+
+export const myUpdatePostApi = async (id: string, updateData: FieldValues) => {
+  const { data } = await axiosInstance.put(`/post/my-post/${id}`, updateData);
+  return data;
+};
+
 export const postLikeApi = async (id: string) => {
   const res = await axiosInstance.post(`/post/like/${id}`);
   return res?.data;

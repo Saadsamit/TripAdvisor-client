@@ -2,7 +2,16 @@ import toastTheme from "@/src/styles/toastTheme";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
 import toast from "react-hot-toast";
-import { getMyPost, postApi, myGetAPost, postLikeApi, postDislikeApi, followUserApi } from "./postApi";
+import {
+  getMyPost,
+  postApi,
+  myGetAPost,
+  postLikeApi,
+  postDislikeApi,
+  followUserApi,
+  myDeletePostApi,
+  myUpdatePostApi,
+} from "./postApi";
 
 const createPost = () => {
   return useMutation({
@@ -27,6 +36,42 @@ const myPosts = () => {
   });
 };
 
+const myDeletePost = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["deletePost"],
+    mutationFn: async (id: string) => await myDeletePostApi(id),
+    onSettled(data) {
+      if (data?.success) {
+        queryClient.invalidateQueries({ queryKey: [`myPosts`] });
+        toast.success(data?.message, { ...toastTheme });
+      } else {
+        toast.error(data?.message || "Something went wrong!", {
+          ...toastTheme,
+        });
+      }
+    },
+  });
+};
+
+const myUpdatePost = (id: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["updatePost"],
+    mutationFn: async (data: FieldValues) => await myUpdatePostApi(id, data),
+    onSettled(data) {
+      if (data?.success) {
+        queryClient.invalidateQueries({ queryKey: [`myPosts`, "getAPost"] });
+        toast.success(data?.message, { ...toastTheme });
+      } else {
+        toast.error(data?.message || "Something went wrong!", {
+          ...toastTheme,
+        });
+      }
+    },
+  });
+};
+
 const getAPost = (id: string) => {
   return useQuery({
     queryKey: [`getAPost`],
@@ -35,13 +80,13 @@ const getAPost = (id: string) => {
 };
 
 const postLike = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["postLike"],
     mutationFn: async (id: string) => await postLikeApi(id),
     onSettled(data) {
       if (data?.success) {
-        queryClient.invalidateQueries({ queryKey: [`getAPost`] })
+        queryClient.invalidateQueries({ queryKey: [`getAPost`] });
         toast.success(data?.message, { ...toastTheme });
       } else {
         toast.error(data?.message || "Something went wrong!", {
@@ -53,13 +98,13 @@ const postLike = () => {
 };
 
 const postDislike = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["postDislike"],
     mutationFn: async (id: string) => await postDislikeApi(id),
     onSettled(data) {
       if (data?.success) {
-        queryClient.invalidateQueries({ queryKey: [`getAPost`] })
+        queryClient.invalidateQueries({ queryKey: [`getAPost`] });
         toast.success(data?.message, { ...toastTheme });
       } else {
         toast.error(data?.message || "Something went wrong!", {
@@ -71,13 +116,13 @@ const postDislike = () => {
 };
 
 const followUser = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["followUser"],
     mutationFn: async (id: string) => await followUserApi(id),
     onSettled(data) {
       if (data?.success) {
-        queryClient.invalidateQueries({ queryKey: [`getAPost`] })
+        queryClient.invalidateQueries({ queryKey: [`getAPost`] });
         toast.success(data?.message, { ...toastTheme });
       } else {
         toast.error(data?.message || "Something went wrong!", {
@@ -94,7 +139,9 @@ const postService = {
   getAPost,
   postLike,
   postDislike,
-  followUser
+  followUser,
+  myDeletePost,
+  myUpdatePost,
 };
 
 export default postService;

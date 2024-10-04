@@ -9,14 +9,10 @@ import Button from "@/src/components/UI/Button";
 import MyInput from "@/src/components/UI/MyInput";
 import { FieldValues, FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
-import { useRouter } from "next/navigation";
-
 import authService from "@/src/services/authService/authService";
 
 import { updateUserSchema } from "@/src/Schemas/AuthSchemas";
 import { TUser } from "@/src/types/userType";
-import { revalidateTag } from "next/cache";
-import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 
 type props = {
   userData: TUser;
