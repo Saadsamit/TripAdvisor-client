@@ -13,3 +13,21 @@
 .ql-editor {
     @apply min-h-96 rounded-2xl
 }
+
+.swal-confirm-btn {
+    padding: 0.5rem 1rem;
+    background-color: #f87171;
+    color: white;
+    border-radius: 0.75rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+  
+  .swal-cancel-btn {
+    padding: 0.5rem 1rem;
+    background-color: #38bdf8;
+    color: white;
+    border-radius: 0.75rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }

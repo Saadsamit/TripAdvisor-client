@@ -4,6 +4,7 @@ import { TUser } from "./userType";
     _id:string;
     post: string;
     user: TUser;
+    comments: string | null;
     upvote: string[];
     downvote: string[];
   };

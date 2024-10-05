@@ -14,7 +14,7 @@ const page = ({ params: { id } }: { params: { id: string } }) => {
     <Container className="my-10">
       <div className="grid md:grid-cols-2 gap-5">
         <PostCard data={data?.data} />
-        <Comment />
+        <Comment id={data?.data?.comments} postId={data?.data?._id} />
       </div>
     </Container>
   );

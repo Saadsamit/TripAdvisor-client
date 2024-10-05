@@ -20,15 +20,24 @@ import { Link } from "@nextui-org/link";
 
 import { siteConfig } from "@/src/config/site";
 import Button from "./Button";
+import { Button as NextUiButton } from "@nextui-org/button";
 import { usePathname, useRouter } from "next/navigation";
 import { useUser } from "@/src/utils/Provider/UserProvider";
 import { LogOut } from "@/src/services/authService/authApi";
 import { privateRoute } from "@/src/constant";
 import { CiSquarePlus } from "react-icons/ci";
 import { userRole } from "@/src/const/user";
+import postService from "@/src/services/posts/postService";
+import { useEffect, useState } from "react";
+import MyModel from "./MyModel";
+import MyEditor from "./MyEditor";
+import { useDisclosure } from "@nextui-org/modal";
 
 const Navbar = () => {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const router = useRouter();
+  const { mutate: postMutate, isPending, data } = postService.createPost();
+  const [value, setValue] = useState("");
   const { user, isLoading } = useUser();
   const pathname = usePathname();
   let navLink = [...siteConfig.navItems];
@@ -42,6 +51,14 @@ const Navbar = () => {
       },
     ];
   }
+
+  useEffect(() => {
+    if (data?.success) {
+      onOpenChange();
+      setValue("")
+      router.push("/news-feed");
+    }
+  }, [data?.success]);
 
   const handleLogout = async () => {
     await LogOut();
@@ -96,16 +113,14 @@ const Navbar = () => {
                   <p className="font-semibold">{user?.email}</p>
                 </DropdownItem>
                 {user && user?.role === userRole.user ? (
-                    <DropdownItem
-                      key="createPost"
-                      onClick={() => handleLink("/news-feed/create")}
-                    >
-                      <div className="flex ">
-                        <CiSquarePlus className="text-xl text-sky-700" /> New
-                        Post
-                      </div>
-                    </DropdownItem>
-                  ) : <DropdownItem className="hidden"></DropdownItem>}
+                  <DropdownItem key="createPost" onClick={onOpen}>
+                    <div className="flex ">
+                      <CiSquarePlus className="text-xl text-sky-700" /> New Post
+                    </div>
+                  </DropdownItem>
+                ) : (
+                  <DropdownItem className="hidden"></DropdownItem>
+                )}
                 <DropdownItem
                   key="settings"
                   onClick={() => handleLink("/profile")}
@@ -148,6 +163,23 @@ const Navbar = () => {
           ))}
         </div>
       </NavbarMenu>
+      <MyModel
+        size="2xl"
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        title="Add Post"
+      >
+        <MyEditor value={value} setValue={setValue} />
+        <div className="text-center">
+          <NextUiButton
+            isLoading={isPending}
+            onClick={() => postMutate({ post: value })}
+            className="bg-sky-400 text-white"
+          >
+            Post
+          </NextUiButton>
+        </div>
+      </MyModel>
     </NextUINavbar>
   );
 };

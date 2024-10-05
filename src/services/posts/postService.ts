@@ -61,7 +61,7 @@ const myUpdatePost = (id: string) => {
     mutationFn: async (data: FieldValues) => await myUpdatePostApi(id, data),
     onSettled(data) {
       if (data?.success) {
-        queryClient.invalidateQueries({ queryKey: [`myPosts`, "getAPost"] });
+        queryClient.invalidateQueries({ queryKey: [`getAPost`, id] });
         toast.success(data?.message, { ...toastTheme });
       } else {
         toast.error(data?.message || "Something went wrong!", {
@@ -74,7 +74,7 @@ const myUpdatePost = (id: string) => {
 
 const getAPost = (id: string) => {
   return useQuery({
-    queryKey: [`getAPost`],
+    queryKey: [`getAPost`, id],
     queryFn: async () => await myGetAPost(id),
   });
 };

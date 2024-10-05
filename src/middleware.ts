@@ -10,7 +10,7 @@ const commonRoutes = ["/news-feed", "/profile"]
 
 const roleBasedRoutes = {
   admin: [/^\/admin/, ...commonRoutes,],
-  user: [/^\/user/, ...commonRoutes, "/news-feed/create"],
+  user: [/^\/user/, ...commonRoutes],
 };
 
 export async function middleware(request: NextRequest) {

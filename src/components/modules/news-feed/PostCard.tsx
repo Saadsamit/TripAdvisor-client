@@ -42,11 +42,11 @@ const PostCard = ({ data, feedPage }: { data: TPost; feedPage?: boolean }) => {
     data: updateData,
     isPending: updatePending,
   } = postService.myUpdatePost(data?._id);
-  const { mutate: followUserMutate, isPaused: followUserPaused } =
+  const { mutate: followUserMutate, isPending: followUserPending } =
     postService.followUser();
-  const { mutate: postLikeMutate, isPaused: postLikePaused } =
+  const { mutate: postLikeMutate, isPending: postLikePending } =
     postService.postLike();
-  const { mutate: postDislikeMutate, isPaused: postDislikePaused } =
+  const { mutate: postDislikeMutate, isPending: postDislikePending } =
     postService.postDislike();
   const Follow = data?.user?.followers.includes(user?._id as string);
   const Upvote = data?.upvote?.includes(user?._id as string);
@@ -55,11 +55,11 @@ const PostCard = ({ data, feedPage }: { data: TPost; feedPage?: boolean }) => {
   if (deleteData?.success) {
     router.push("/");
   }
-  useEffect(()=>{
+  useEffect(() => {
     if (updateData?.success) {
       onOpenChange();
     }
-  },[updateData?.success])
+  }, [updateData?.success]);
 
   const cardBody = (
     <CardBody className="p-3 overflow-visible text-small">
@@ -79,7 +79,11 @@ const PostCard = ({ data, feedPage }: { data: TPost; feedPage?: boolean }) => {
             />
             <div className="flex flex-col gap-1 items-start justify-center">
               <Link
-                href={`/profile/${data?.user?._id}`}
+                href={
+                  data?.user?._id === user?._id
+                    ? "/profile"
+                    : `/profile/${data?.user?._id}`
+                }
                 className="text-small font-semibold leading-none text-default-600 flex flex-wrap items-center hover:underline"
               >
                 {data?.user?.name}{" "}
@@ -105,7 +109,9 @@ const PostCard = ({ data, feedPage }: { data: TPost; feedPage?: boolean }) => {
                 <DropdownItem
                   key="delete"
                   color="danger"
-                  onClick={()=>comfirmAlert(() => deletePostMutate(data?._id))}
+                  onClick={() =>
+                    comfirmAlert(() => deletePostMutate(data?._id))
+                  }
                 >
                   <div className="flex flex-wrap items-center">
                     <MdDeleteForever className="text-xl" /> Delete Post
@@ -121,7 +127,7 @@ const PostCard = ({ data, feedPage }: { data: TPost; feedPage?: boolean }) => {
                   : "bg-sky-400 text-white"
               }
               size="sm"
-              isLoading={followUserPaused}
+              isLoading={followUserPending}
               onClick={() => followUserMutate(data?.user?._id)}
             >
               {Follow ? "Unfollow" : "Follow"}
@@ -142,11 +148,11 @@ const PostCard = ({ data, feedPage }: { data: TPost; feedPage?: boolean }) => {
                   ? "bg-sky-400 text-white"
                   : "bg-transparent text-foreground border border-sky-400"
               }`}
-              isLoading={postLikePaused}
+              isLoading={postLikePending}
               onClick={() => postLikeMutate(data?._id)}
             >
               {data?.upvote?.length}
-              {postLikePaused || (Upvote ? <BiSolidUpvote /> : <BiUpvote />)}
+              {postLikePending || (Upvote ? <BiSolidUpvote /> : <BiUpvote />)}
             </Button>
           </div>
           <div className="flex gap-1">
@@ -157,11 +163,11 @@ const PostCard = ({ data, feedPage }: { data: TPost; feedPage?: boolean }) => {
                   ? "bg-sky-400 text-white"
                   : "bg-transparent text-foreground border border-sky-400"
               }`}
-              isLoading={postDislikePaused}
+              isLoading={postDislikePending}
               onClick={() => postDislikeMutate(data?._id)}
             >
               {data?.downvote?.length}
-              {postDislikePaused ||
+              {postDislikePending ||
                 (Downvote ? <BiSolidDownvote /> : <BiDownvote />)}
             </Button>
           </div>
@@ -177,7 +183,7 @@ const PostCard = ({ data, feedPage }: { data: TPost; feedPage?: boolean }) => {
         <div className="text-center">
           <Button
             isLoading={updatePending}
-            onClick={()=> updatePostMutate({ post: value })}
+            onClick={() => updatePostMutate({ post: value })}
             className="bg-sky-400 text-white"
           >
             Update Post
