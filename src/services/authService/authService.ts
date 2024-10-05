@@ -1,5 +1,5 @@
 import { FieldValues } from "react-hook-form";
-import { loginApi, MyProfileApi, signUpApi, updateUserApi } from "./authApi";
+import { getAUserApi, loginApi, MyProfileApi, signUpApi, updateUserApi } from "./authApi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import toastTheme from "@/src/styles/toastTheme";
@@ -37,14 +37,14 @@ const login = () => {
 };
 
 const updateUser = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["updateUser"],
     mutationFn: async (data: FieldValues) => await updateUserApi(data),
     onSettled(data) {
       if (data?.success) {
         toast.success(data?.message, { ...toastTheme });
-        queryClient.invalidateQueries({ queryKey: ['profile'] })
+        queryClient.invalidateQueries({ queryKey: ["profile"] });
       } else {
         toast.error(data?.message || "Something went wrong!", {
           ...toastTheme,
@@ -55,14 +55,26 @@ const updateUser = () => {
 };
 
 const myProfile = () => {
-  return useQuery({ queryKey: ['profile'], queryFn: async () => await MyProfileApi() })
+  return useQuery({
+    queryKey: ["profile"],
+    queryFn: async () => await MyProfileApi(),
+  });
+};
+
+const getAUser = (id: string) => {
+  return useQuery({
+    queryKey: ["getAUser", id],
+    queryFn: async () => await getAUserApi(id),
+    enabled: !!id
+  });
 };
 
 const authService = {
   login,
   signUp,
   updateUser,
-  myProfile
+  myProfile,
+  getAUser,
 };
 
 export default authService;

@@ -7,8 +7,10 @@ import { TPost } from "@/src/types/post";
 import { Skeleton } from "@nextui-org/skeleton";
 import { Card, CardBody, CardFooter } from "@nextui-org/card";
 
-const Posts = () => {
-  const { data, isPending, isFetching, isLoading } = postService.myPosts();
+const Posts = ({ id }: { id?: string }) => {
+  const { data, isPending, isFetching, isLoading } = id
+    ? postService.getAUserPost(id)
+    : postService.myPosts();
 
   if (isLoading || isFetching || isPending)
     return (
@@ -33,8 +35,8 @@ const Posts = () => {
         ))}
       </div>
     );
-    
-  return data?.data ? (
+
+  return data?.data.length ? (
     <div className="py-4 grid md:grid-cols-3 sm:grid-cols-2 gap-4">
       {data?.data?.map((item: TPost) => (
         <ProfilePostCard data={item} />

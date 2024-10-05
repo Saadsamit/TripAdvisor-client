@@ -11,6 +11,7 @@ import {
   followUserApi,
   myDeletePostApi,
   myUpdatePostApi,
+  getAUserPostApi,
 } from "./postApi";
 
 const createPost = () => {
@@ -79,6 +80,14 @@ const getAPost = (id: string) => {
   });
 };
 
+const getAUserPost = (id: string) => {
+  return useQuery({
+    queryKey: [`getAUserPost`, id],
+    queryFn: async () => await getAUserPostApi(id),
+    enabled: !!id,
+  });
+};
+
 const postLike = () => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -142,6 +151,7 @@ const postService = {
   followUser,
   myDeletePost,
   myUpdatePost,
+  getAUserPost,
 };
 
 export default postService;

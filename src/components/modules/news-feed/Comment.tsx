@@ -42,7 +42,7 @@ const Comment = ({ id, postId }: { id: string; postId: string }) => {
   };
 
   if (isLoading || isPending || isFetching) return <CommentLoading />;
-  
+
   return (
     <Card className="border rounded-xl p-4 h-[calc(100vh-200px)] pb-20">
       <CardHeader className="border-b">
@@ -50,7 +50,7 @@ const Comment = ({ id, postId }: { id: string; postId: string }) => {
       </CardHeader>
       <CardBody className="overflow-y-scroll  mt-2">
         {allComment?.data?.comments?.length ? (
-          <CommentCard data={allComment.data} refetch={refetch}/>
+          <CommentCard data={allComment.data} refetch={refetch} />
         ) : (
           <div className="flex justify-center items-center h-full">
             no comment

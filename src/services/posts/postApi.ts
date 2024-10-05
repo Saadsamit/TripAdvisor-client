@@ -18,6 +18,11 @@ export const myGetAPost = async (id: string) => {
   return data;
 };
 
+export const getAUserPostApi = async (id: string) => {
+  const { data } = await axiosInstance.get(`/post/user/${id}`);
+  return data;
+};
+
 export const myDeletePostApi = async (id: string) => {
   const { data } = await axiosInstance.delete(`/post/my-post/${id}`);
   return data;

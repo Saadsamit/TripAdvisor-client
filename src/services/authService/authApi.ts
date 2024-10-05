@@ -48,3 +48,12 @@ export const MyProfileApi = async () => {
     throw new Error(error.message);
   }
 };
+
+export const getAUserApi = async (id: string) => {
+  try {
+    const { data } = await axiosInstance.get(`/user/${id}`);
+    return data;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};

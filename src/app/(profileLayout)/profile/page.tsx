@@ -4,8 +4,6 @@ import Profile from "@/src/components/modules/profile/Profile";
 import Container from "@/src/components/UI/Container";
 
 const page = () => {
-  
-
   return (
     <div>
       <NewsFeedNav />
