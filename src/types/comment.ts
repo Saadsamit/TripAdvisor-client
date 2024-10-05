@@ -9,6 +9,11 @@ export type TComment = {
   comment: string;
 };
 
+export type TCategory = {
+  _id: string;
+  name: string;
+};
+
 export type TComments = {
   _id: string;
   postUser: string;

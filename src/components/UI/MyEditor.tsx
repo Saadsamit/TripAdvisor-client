@@ -15,7 +15,7 @@ const MyEditor = ({
   
 
   return (
-    <div className="my-10">
+    <div>
       <ReactQuill theme="snow" value={value} onChange={setValue} />
     </div>
   );

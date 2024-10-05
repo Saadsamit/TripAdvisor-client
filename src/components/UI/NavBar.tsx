@@ -21,24 +21,34 @@ import { Link } from "@nextui-org/link";
 import { siteConfig } from "@/src/config/site";
 import Button from "./Button";
 import { Button as NextUiButton } from "@nextui-org/button";
+import { Select, SelectItem } from "@nextui-org/select";
 import { usePathname, useRouter } from "next/navigation";
 import { useUser } from "@/src/utils/Provider/UserProvider";
 import { LogOut } from "@/src/services/authService/authApi";
 import { privateRoute } from "@/src/constant";
 import { CiSquarePlus } from "react-icons/ci";
+import { HiSelector } from "react-icons/hi";
 import { userRole } from "@/src/const/user";
 import postService from "@/src/services/posts/postService";
 import { useEffect, useState } from "react";
 import MyModel from "./MyModel";
 import MyEditor from "./MyEditor";
 import { useDisclosure } from "@nextui-org/modal";
+import categoryService from "@/src/services/category/categoryService";
+import { TCategory } from "@/src/types/comment";
+import toast from "react-hot-toast";
+import toastTheme from "@/src/styles/toastTheme";
 
 const Navbar = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const router = useRouter();
   const { mutate: postMutate, isPending, data } = postService.createPost();
-  const [value, setValue] = useState("");
+  const [post, setPost] = useState("");
+  const [category, setCategory] = useState("");
   const { user, isLoading } = useUser();
+  const { data: allCategory } = categoryService.allCategory(
+    user?._id as string
+  );
   const pathname = usePathname();
   let navLink = [...siteConfig.navItems];
 
@@ -55,7 +65,8 @@ const Navbar = () => {
   useEffect(() => {
     if (data?.success) {
       onOpenChange();
-      setValue("")
+      setPost("");
+      setCategory("");
       router.push("/news-feed");
     }
   }, [data?.success]);
@@ -71,6 +82,11 @@ const Navbar = () => {
     router.push(link);
   };
 
+  const handleClick = () => {
+    if (!category.length) return toast.error("Select a category", { ...toastTheme });
+    if (!post.length) return toast.error("enter your post", { ...toastTheme });
+    postMutate({ post, category });
+  };
   return (
     <NextUINavbar shouldHideOnScroll className="border-b border-sky-100">
       <NavbarBrand>
@@ -169,11 +185,24 @@ const Navbar = () => {
         onOpenChange={onOpenChange}
         title="Add Post"
       >
-        <MyEditor value={value} setValue={setValue} />
+        <Select
+          placeholder="Category"
+          aria-label="Category"
+          className="max-w-xs"
+          required={true}
+          onChange={(e) => setCategory(e.target.value)}
+          disableSelectorIconRotation
+          selectorIcon={<HiSelector />}
+        >
+          {allCategory?.data?.map((item: TCategory) => (
+            <SelectItem key={item?.name} className="capitalize">{item?.name}</SelectItem>
+          ))}
+        </Select>
+        <MyEditor value={post} setValue={setPost} />
         <div className="text-center">
           <NextUiButton
             isLoading={isPending}
-            onClick={() => postMutate({ post: value })}
+            onClick={handleClick}
             className="bg-sky-400 text-white"
           >
             Post

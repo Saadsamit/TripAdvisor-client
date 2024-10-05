@@ -29,12 +29,22 @@ import MyModel from "../../UI/MyModel";
 import { useDisclosure } from "@nextui-org/modal";
 import MyEditor from "../../UI/MyEditor";
 import { useEffect, useState } from "react";
+import { Select, SelectItem } from "@nextui-org/select";
+import { HiSelector } from "react-icons/hi";
+import categoryService from "@/src/services/category/categoryService";
+import { TCategory } from "@/src/types/comment";
+import toast from "react-hot-toast";
+import toastTheme from "@/src/styles/toastTheme";
 
 const PostCard = ({ data, feedPage }: { data: TPost; feedPage?: boolean }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const router = useRouter();
   const { user } = useUser();
-  const [value, setValue] = useState(data?.post);
+  const [post, setPost] = useState(data?.post);
+  const [category, setCategory] = useState(data?.category);
+  const { data: allCategory } = categoryService.allCategory(
+    user?._id as string
+  );
   const { mutate: deletePostMutate, data: deleteData } =
     postService.myDeletePost();
   const {
@@ -61,8 +71,26 @@ const PostCard = ({ data, feedPage }: { data: TPost; feedPage?: boolean }) => {
     }
   }, [updateData?.success]);
 
+  const handleClick = () => {
+    if (!category.length)
+      return toast.error("Select a category", { ...toastTheme });
+    if (!post.length) return toast.error("enter your post", { ...toastTheme });
+    updatePostMutate({ post, category });
+  };
+
   const cardBody = (
-    <CardBody className="p-3 overflow-visible text-small">
+    <CardBody className="p-3 overflow-visible">
+      {data?.category && (
+        <p className="text-sky-400 text-small">
+          #
+          <Link
+            href={`/news-feed?category=${category}`}
+            className="hover:underline"
+          >
+            {data?.category}
+          </Link>
+        </p>
+      )}
       <div dangerouslySetInnerHTML={{ __html: data?.post }} />
     </CardBody>
   );
@@ -179,11 +207,27 @@ const PostCard = ({ data, feedPage }: { data: TPost; feedPage?: boolean }) => {
         onOpenChange={onOpenChange}
         title="update post"
       >
-        <MyEditor value={value} setValue={setValue} />
+        <Select
+          placeholder="Category"
+          aria-label="Category"
+          className="max-w-xs"
+          defaultSelectedKeys={[category]}
+          required={true}
+          onChange={(e) => setCategory(e.target.value)}
+          disableSelectorIconRotation
+          selectorIcon={<HiSelector />}
+        >
+          {allCategory?.data?.map((item: TCategory) => (
+            <SelectItem key={item?.name} className="capitalize">
+              {item?.name}
+            </SelectItem>
+          ))}
+        </Select>
+        <MyEditor value={post} setValue={setPost} />
         <div className="text-center">
           <Button
             isLoading={updatePending}
-            onClick={() => updatePostMutate({ post: value })}
+            onClick={handleClick}
             className="bg-sky-400 text-white"
           >
             Update Post
