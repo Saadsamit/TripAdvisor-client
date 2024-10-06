@@ -1,5 +1,5 @@
 import toastTheme from "@/src/styles/toastTheme";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
 import toast from "react-hot-toast";
 import {
@@ -12,7 +12,9 @@ import {
   myDeletePostApi,
   myUpdatePostApi,
   getAUserPostApi,
+  getAllPostApi,
 } from "./postApi";
+import { TgetAllPost } from "@/src/types/ApiTypes";
 
 const createPost = () => {
   return useMutation({
@@ -96,6 +98,7 @@ const postLike = () => {
     onSettled(data) {
       if (data?.success) {
         queryClient.invalidateQueries({ queryKey: [`getAPost`] });
+        queryClient.invalidateQueries({ queryKey: ["getAllPost"] });
         toast.success(data?.message, { ...toastTheme });
       } else {
         toast.error(data?.message || "Something went wrong!", {
@@ -114,6 +117,7 @@ const postDislike = () => {
     onSettled(data) {
       if (data?.success) {
         queryClient.invalidateQueries({ queryKey: [`getAPost`] });
+        queryClient.invalidateQueries({ queryKey: ["getAllPost"] });
         toast.success(data?.message, { ...toastTheme });
       } else {
         toast.error(data?.message || "Something went wrong!", {
@@ -132,6 +136,7 @@ const followUser = () => {
     onSettled(data) {
       if (data?.success) {
         queryClient.invalidateQueries({ queryKey: [`getAPost`] });
+        queryClient.invalidateQueries({ queryKey: ["getAllPost"] });
         toast.success(data?.message, { ...toastTheme });
       } else {
         toast.error(data?.message || "Something went wrong!", {
@@ -139,6 +144,22 @@ const followUser = () => {
         });
       }
     },
+  });
+};
+
+const getAllPost = (data: TgetAllPost) => {
+  return useInfiniteQuery({
+    queryKey: ['getAllPost'],
+    queryFn: async ({ pageParam = 1 }) => await getAllPostApi(pageParam, data),
+    initialPageParam: 1,
+    refetchInterval: 5000,
+    getNextPageParam: (lastPage) => {
+      if (lastPage.currentPage < lastPage.totalPages) {
+        return lastPage.currentPage + 1;
+      }
+      return undefined;
+    },
+    
   });
 };
 
@@ -152,6 +173,7 @@ const postService = {
   myDeletePost,
   myUpdatePost,
   getAUserPost,
+  getAllPost,
 };
 
 export default postService;

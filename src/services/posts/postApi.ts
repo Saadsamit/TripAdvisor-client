@@ -1,11 +1,19 @@
 "use server";
 
 import axiosInstance from "@/src/libs/axios";
+import { TgetAllPost } from "@/src/types/ApiTypes";
 import { FieldValues } from "react-hook-form";
 
 export const postApi = async (data: FieldValues) => {
   const res = await axiosInstance.post(`/post/create`, data);
   return res?.data;
+};
+
+export const getAllPostApi = async (pageParam = 1, params: TgetAllPost) => {
+  const { data } = await axiosInstance.get(`/post?page=${pageParam}`, {
+    params: { page: pageParam, ...params },
+  });
+  return data;
 };
 
 export const getMyPost = async () => {

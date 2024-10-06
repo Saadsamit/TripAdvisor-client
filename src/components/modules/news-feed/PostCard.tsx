@@ -24,7 +24,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import { VscVerifiedFilled } from "react-icons/vsc";
 import comfirmAlert from "@/src/utils/comfirmAlert";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import MyModel from "../../UI/MyModel";
 import { useDisclosure } from "@nextui-org/modal";
 import MyEditor from "../../UI/MyEditor";
@@ -37,6 +37,7 @@ import toast from "react-hot-toast";
 import toastTheme from "@/src/styles/toastTheme";
 
 const PostCard = ({ data, feedPage }: { data: TPost; feedPage?: boolean }) => {
+  const searchParams = useSearchParams()
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const router = useRouter();
   const { user } = useUser();
@@ -58,7 +59,7 @@ const PostCard = ({ data, feedPage }: { data: TPost; feedPage?: boolean }) => {
     postService.postLike();
   const { mutate: postDislikeMutate, isPending: postDislikePending } =
     postService.postDislike();
-  const Follow = data?.user?.followers.includes(user?._id as string);
+  const Follow = data?.user?.followers?.includes(user?._id as string);
   const Upvote = data?.upvote?.includes(user?._id as string);
   const Downvote = data?.downvote?.includes(user?._id as string);
 
@@ -78,22 +79,17 @@ const PostCard = ({ data, feedPage }: { data: TPost; feedPage?: boolean }) => {
     updatePostMutate({ post, category });
   };
 
-  const cardBody = (
-    <CardBody className="p-3 overflow-visible">
-      {data?.category && (
-        <p className="text-sky-400 text-small">
-          #
-          <Link
-            href={`/news-feed?category=${category}`}
-            className="hover:underline"
-          >
-            {data?.category}
-          </Link>
-        </p>
-      )}
-      <div dangerouslySetInnerHTML={{ __html: data?.post }} />
-    </CardBody>
-  );
+  const handleCategoryChange = (category: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    const [key, value] = category.split("=");
+
+    params.set(key, value);
+
+    router.push(`/news-feed?${params.toString()}`);
+  };
+
+  const cardBody = <div dangerouslySetInnerHTML={{ __html: data?.post }} />;
   return (
     <div>
       <Card className={`${!feedPage && "h-fit"}`}>
@@ -162,11 +158,24 @@ const PostCard = ({ data, feedPage }: { data: TPost; feedPage?: boolean }) => {
             </Button>
           )}
         </CardHeader>
-        {feedPage ? (
-          <Link href={`/news-feed/${data?._id}`}>{cardBody}</Link>
-        ) : (
-          cardBody
-        )}
+        <CardBody className="p-3 overflow-visible">
+          {data?.category && (
+            <p className="text-sky-400 flex text-small">
+              #
+              <p
+              onClick={()=>handleCategoryChange(`category=${data?.category}`)}
+                className="hover:underline cursor-pointer"
+              >
+                {data?.category}
+              </p>
+            </p>
+          )}
+          {feedPage ? (
+            <Link href={`/news-feed/${data?._id}`}>{cardBody}</Link>
+          ) : (
+            cardBody
+          )}
+        </CardBody>
         <CardFooter className="gap-3">
           <div className="flex gap-1">
             <Button

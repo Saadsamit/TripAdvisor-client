@@ -36,7 +36,7 @@ const Posts = ({ id }: { id?: string }) => {
       </div>
     );
 
-  return data?.data.length ? (
+  return data?.data?.length ? (
     <div className="py-4 grid md:grid-cols-3 sm:grid-cols-2 gap-4">
       {data?.data?.map((item: TPost) => (
         <ProfilePostCard data={item} />
