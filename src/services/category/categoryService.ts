@@ -2,10 +2,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
 import toastTheme from "@/src/styles/toastTheme";
 import toast from "react-hot-toast";
-import { allCategoryApi, createCategoryApi,  } from "./categoryApi";
+import { allCategoryApi, createCategoryApi } from "./categoryApi";
 
 const createCategory = () => {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["createCategory"],
     mutationFn: async (data: FieldValues) => await createCategoryApi(data),
@@ -22,17 +22,17 @@ const createCategory = () => {
   });
 };
 
-const allCategory = (enabled: string) => {
+const allCategory = (enabled: string, limit?: number) => {
   return useQuery({
     queryKey: [`allCategory`],
     queryFn: async () => await allCategoryApi(),
-    enabled: !!enabled
+    enabled: !!enabled,
   });
 };
 
 const categoryService = {
   createCategory,
-  allCategory
+  allCategory,
 };
 
 export default categoryService;

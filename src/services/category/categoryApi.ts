@@ -8,7 +8,9 @@ export const createCategoryApi = async (data: FieldValues) => {
   return res?.data;
 };
 
-export const allCategoryApi = async () => {
-  const { data } = await axiosInstance.get(`/category`);
+export const allCategoryApi = async (limit?: number) => {
+  const { data } = await axiosInstance.get(`/category`, {
+    params: limit,
+  });
   return data;
 };
