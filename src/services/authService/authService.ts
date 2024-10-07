@@ -1,5 +1,11 @@
 import { FieldValues } from "react-hook-form";
-import { getAUserApi, loginApi, MyProfileApi, signUpApi, updateUserApi } from "./authApi";
+import {
+  getAUserApi,
+  loginApi,
+  MyProfileApi,
+  signUpApi,
+  updateUserApi,
+} from "./authApi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import toastTheme from "@/src/styles/toastTheme";
@@ -65,7 +71,7 @@ const getAUser = (id: string) => {
   return useQuery({
     queryKey: ["getAUser", id],
     queryFn: async () => await getAUserApi(id),
-    enabled: !!id
+    enabled: !!id,
   });
 };
 

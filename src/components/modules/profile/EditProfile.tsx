@@ -20,7 +20,7 @@ type props = {
 
 const EditProfile = ({ userData }: props) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { mutate: updateMutate, isPending, data, error } = authService.updateUser();
+  const { mutate: updateMutate, isPending} = authService.updateUser();
   const methods = useForm({
     resolver: zodResolver(updateUserSchema),
     defaultValues: userData,

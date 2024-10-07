@@ -99,6 +99,7 @@ const postLike = () => {
       if (data?.success) {
         queryClient.invalidateQueries({ queryKey: [`getAPost`] });
         queryClient.invalidateQueries({ queryKey: ["getAllPost"] });
+        queryClient.invalidateQueries({ queryKey: ["checkUpvote"] });
         toast.success(data?.message, { ...toastTheme });
       } else {
         toast.error(data?.message || "Something went wrong!", {
@@ -118,6 +119,7 @@ const postDislike = () => {
       if (data?.success) {
         queryClient.invalidateQueries({ queryKey: [`getAPost`] });
         queryClient.invalidateQueries({ queryKey: ["getAllPost"] });
+        queryClient.invalidateQueries({ queryKey: ["checkUpvote"] });
         toast.success(data?.message, { ...toastTheme });
       } else {
         toast.error(data?.message || "Something went wrong!", {
@@ -137,6 +139,7 @@ const followUser = () => {
       if (data?.success) {
         queryClient.invalidateQueries({ queryKey: [`getAPost`] });
         queryClient.invalidateQueries({ queryKey: ["getAllPost"] });
+        queryClient.invalidateQueries({ queryKey: ["checkUpvote"] });
         toast.success(data?.message, { ...toastTheme });
       } else {
         toast.error(data?.message || "Something went wrong!", {

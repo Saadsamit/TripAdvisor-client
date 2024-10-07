@@ -7,13 +7,14 @@ import Container from "@/src/components/UI/Container";
 
 const NewsFeedNav = () => {
   const router = useRouter();
+  console.log(router);
   return (
     <div className="border-b">
       <Container>
         <NextUiButton
           isIconOnly
           className="bg-transparent text-xl hover:text-sky-400"
-          onClick={() => router.back()}
+          onClick={() => router.push("/")}
         >
           <IoArrowBackOutline />
         </NextUiButton>

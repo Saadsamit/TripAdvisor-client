@@ -10,6 +10,8 @@ import { useUser } from "@/src/utils/Provider/UserProvider";
 import { Button } from "@nextui-org/button";
 import postService from "@/src/services/posts/postService";
 import { useEffect } from "react";
+import Swal from "sweetalert2";
+import { paymentApi } from "@/src/services/payment/paymentApi";
 
 const Profile = ({ id }: { id?: string }) => {
   const { user: userData } = useUser();
@@ -32,11 +34,32 @@ const Profile = ({ id }: { id?: string }) => {
 
   const Follow = data?.data?.followers?.includes(userData?._id as string);
 
+  const handleCilck = () => {
+    Swal.fire({
+      title: "Are you sure you want to verified?",
+      text: "You need to pay 200tk to verified",
+      icon: "warning",
+      showCancelButton: true,
+      customClass: {
+        confirmButton: "swal-cancel-btn",
+        cancelButton: "swal-confirm-btn",
+      },
+      buttonsStyling: false,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        paymentApi()
+      }
+    });
+  };
+
   const user: TUser = data?.data;
   return (
-    <div>
+    <div className="border-b pb-5">
       {id ? "" : <EditProfile userData={user} />}
-      <div className="sm:flex sm:space-y-0 space-y-4 items-center border-b py-10">
+      <div className="sm:flex sm:space-y-0 space-y-4 items-center py-10">
         <div className="text-lg flex flex-col sm:text-start text-center sm:w-1/3">
           <Image
             src={user?.picture.startsWith("http") ? user?.picture : ""}
@@ -55,11 +78,11 @@ const Profile = ({ id }: { id?: string }) => {
           {userData?._id !== data?.data?._id && (
             <div>
               <Button
-                className={
-                  `${Follow
+                className={`${
+                  Follow
                     ? "bg-transparent text-foreground border border-sky-400"
-                    : "bg-sky-400 text-white"} mt-5`
-                }
+                    : "bg-sky-400 text-white"
+                } mt-5`}
                 size="sm"
                 isLoading={followUserPending}
                 onClick={() => followUserMutate(data?.data?._id)}
@@ -84,6 +107,20 @@ const Profile = ({ id }: { id?: string }) => {
           </div>
         </div>
       </div>
+      {!user?.verified && !id && !!data?.upvoteData?.upvote?.length && (
+        <div className="text-white bg-sky-400 rounded-3xl capitalize flex flex-wrap gap-4 sm:justify-between justify-center items-center px-10 py-3">
+          <h5 className="sm:text-start text-center">
+            You Fullfill the condition for verified user
+          </h5>
+          <Button
+            onClick={handleCilck}
+            className={"bg-white text-sky-400"}
+            size="md"
+          >
+            Verified Now
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

@@ -10,7 +10,7 @@ export const postApi = async (data: FieldValues) => {
 };
 
 export const getAllPostApi = async (pageParam = 1, params: TgetAllPost) => {
-  const { data } = await axiosInstance.get(`/post?page=${pageParam}`, {
+  const { data } = await axiosInstance.get(`/post`, {
     params: { page: pageParam, ...params },
   });
   return data;
