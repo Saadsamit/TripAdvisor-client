@@ -21,7 +21,7 @@ const ProfilePostCard = ({ data }: { data: TPost }) => {
       )}
           <div dangerouslySetInnerHTML={{ __html: sliceHTML(data?.post, 100) }} />
         </CardBody>
-        <CardFooter className="gap-3">
+        <CardFooter className="gap-3 flex-wrap">
           <div className="flex gap-1">
             <p className="font-semibold text-small">{data?.upvote?.length}</p>
             <p className=" text-small">Upvote</p>

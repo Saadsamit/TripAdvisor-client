@@ -28,7 +28,6 @@ import { LogOut } from "@/src/services/authService/authApi";
 import { privateRoute } from "@/src/constant";
 import { CiSquarePlus } from "react-icons/ci";
 import { HiSelector } from "react-icons/hi";
-import { userRole } from "@/src/const/user";
 import postService from "@/src/services/posts/postService";
 import { useEffect, useState } from "react";
 import MyModel from "./MyModel";
@@ -83,7 +82,8 @@ const Navbar = () => {
   };
 
   const handleClick = () => {
-    if (!category.length) return toast.error("Select a category", { ...toastTheme });
+    if (!category.length)
+      return toast.error("Select a category", { ...toastTheme });
     if (!post.length) return toast.error("enter your post", { ...toastTheme });
     postMutate({ post, category });
   };
@@ -128,20 +128,22 @@ const Navbar = () => {
                   <p className="font-semibold">Signed in as</p>
                   <p className="font-semibold">{user?.email}</p>
                 </DropdownItem>
-                {user && user?.role === userRole.user ? (
-                  <DropdownItem key="createPost" onClick={onOpen}>
-                    <div className="flex ">
-                      <CiSquarePlus className="text-xl text-sky-700" /> New Post
-                    </div>
-                  </DropdownItem>
-                ) : (
-                  <DropdownItem className="hidden"></DropdownItem>
-                )}
+                <DropdownItem key="createPost" onClick={onOpen}>
+                  <div className="flex ">
+                    <CiSquarePlus className="text-xl text-sky-700" /> New Post
+                  </div>
+                </DropdownItem>
                 <DropdownItem
                   key="settings"
                   onClick={() => handleLink("/profile")}
                 >
                   My Profile
+                </DropdownItem>
+                <DropdownItem
+                  key="Dashboard"
+                  onClick={() => handleLink("/dashboard")}
+                >
+                  Dashboard
                 </DropdownItem>
                 <DropdownItem
                   key="logout"
@@ -195,7 +197,9 @@ const Navbar = () => {
           selectorIcon={<HiSelector />}
         >
           {allCategory?.data?.map((item: TCategory) => (
-            <SelectItem key={item?.name} className="capitalize">{item?.name}</SelectItem>
+            <SelectItem key={item?.name} className="capitalize">
+              {item?.name}
+            </SelectItem>
           ))}
         </Select>
         <MyEditor value={post} setValue={setPost} />

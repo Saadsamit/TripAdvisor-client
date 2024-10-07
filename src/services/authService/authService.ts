@@ -2,6 +2,8 @@ import { FieldValues } from "react-hook-form";
 import {
   getAUserApi,
   loginApi,
+  myFollowersApi,
+  myFollowingApi,
   MyProfileApi,
   signUpApi,
   updateUserApi,
@@ -67,6 +69,20 @@ const myProfile = () => {
   });
 };
 
+const myFollowers = () => {
+  return useQuery({
+    queryKey: ["myFollowers"],
+    queryFn: async () => await myFollowersApi(),
+  });
+};
+
+const myFollowing = () => {
+  return useQuery({
+    queryKey: ["myFollowing"],
+    queryFn: async () => await myFollowingApi(),
+  });
+};
+
 const getAUser = (id: string) => {
   return useQuery({
     queryKey: ["getAUser", id],
@@ -80,6 +96,8 @@ const authService = {
   signUp,
   updateUser,
   myProfile,
+  myFollowers,
+  myFollowing,
   getAUser,
 };
 

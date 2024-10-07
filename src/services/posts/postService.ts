@@ -1,5 +1,10 @@
 import toastTheme from "@/src/styles/toastTheme";
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
 import toast from "react-hot-toast";
 import {
@@ -140,6 +145,8 @@ const followUser = () => {
         queryClient.invalidateQueries({ queryKey: [`getAPost`] });
         queryClient.invalidateQueries({ queryKey: ["getAllPost"] });
         queryClient.invalidateQueries({ queryKey: ["checkUpvote"] });
+        queryClient.invalidateQueries({ queryKey: ["myFollowers"] });
+        queryClient.invalidateQueries({ queryKey: ["myFollowing"] });
         toast.success(data?.message, { ...toastTheme });
       } else {
         toast.error(data?.message || "Something went wrong!", {
@@ -152,7 +159,7 @@ const followUser = () => {
 
 const getAllPost = (data: TgetAllPost) => {
   return useInfiniteQuery({
-    queryKey: ['getAllPost'],
+    queryKey: ["getAllPost"],
     queryFn: async ({ pageParam = 1 }) => await getAllPostApi(pageParam, data),
     initialPageParam: 1,
     refetchInterval: 5000,
@@ -162,7 +169,6 @@ const getAllPost = (data: TgetAllPost) => {
       }
       return undefined;
     },
-    
   });
 };
 

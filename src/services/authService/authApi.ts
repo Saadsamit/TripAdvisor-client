@@ -49,6 +49,24 @@ export const MyProfileApi = async () => {
   }
 };
 
+export const myFollowersApi = async () => {
+  try {
+    const { data } = await axiosInstance.get("/user/my-followers");
+    return data;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const myFollowingApi = async () => {
+  try {
+    const { data } = await axiosInstance.get("/user/my-following");
+    return data;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
 export const getAUserApi = async (id: string) => {
   try {
     const { data } = await axiosInstance.get(`/user/${id}`);
