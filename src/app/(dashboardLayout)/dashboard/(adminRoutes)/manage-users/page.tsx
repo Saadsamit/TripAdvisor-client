@@ -17,7 +17,7 @@ import { HiSelector } from "react-icons/hi";
 import { VscVerifiedFilled } from "react-icons/vsc";
 
 const page = () => {
-  const { data, isPending, isFetching, isLoading } = adminService.getAllUser();
+  const { data, isPending, isLoading } = adminService.getAllUser();
   const { mutate: updateUserRole, isPending: updateUserRolePending } =
     adminService.updateUserRole();
 
@@ -29,7 +29,6 @@ const page = () => {
     );
 
   const handleChange = (id: string, role: string) => {
-    // console.log({ id, role });
     updateUserRole({ id, role });
   };
 

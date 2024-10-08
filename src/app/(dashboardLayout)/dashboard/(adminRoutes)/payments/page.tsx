@@ -1,9 +1,7 @@
 "use client";
 
-import Button from "@/src/components/UI/Button";
 import paymentService from "@/src/services/payment/paymentService";
 import { TPayment } from "@/src/types";
-import { Avatar } from "@nextui-org/avatar";
 import { Spinner } from "@nextui-org/spinner";
 import {
   Table,
@@ -13,7 +11,6 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/table";
-import { VscVerifiedFilled } from "react-icons/vsc";
 
 const page = () => {
   const { data, isPending, isFetching, isLoading } =
@@ -25,7 +22,6 @@ const page = () => {
         <Spinner />
       </div>
     );
-
   return (
     <div>
       <h3 className="text-2xl font-bold text-sky-400 mb-5">Payment</h3>
