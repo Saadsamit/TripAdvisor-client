@@ -2,10 +2,7 @@
 
 import Button from "@/src/components/UI/Button";
 import MyInput from "@/src/components/UI/MyInput";
-import {
-  FormProvider,
-  useForm,
-} from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LogInScheme } from "@/src/Schemas/AuthSchemas";
@@ -14,21 +11,22 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 const page = () => {
-  const router = useRouter()
+  const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect");
-  const { mutate: loginMutate, isPending, isSuccess, data} = authService.login();
+  const {
+    mutate: loginMutate,
+    isPending,
+    isSuccess,
+    data,
+  } = authService.login();
   const methods = useForm({
     resolver: zodResolver(LogInScheme),
-    defaultValues: {
-      email: "admin@gmail.com",
-      password: "si2002",
-    },
   });
   const { handleSubmit } = methods;
 
-  if(data?.success){
-    router.push("/")
+  if (data?.success) {
+    router.push("/");
   }
 
   useEffect(() => {

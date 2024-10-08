@@ -1,7 +1,7 @@
 
 ---
 
-# Project Name : [WashNGo](https://washngo.vercel.app)
+# Project Name : [TripAdvisor](https://trip-advisor-beta.vercel.app)
 
 ## Introduction
 
