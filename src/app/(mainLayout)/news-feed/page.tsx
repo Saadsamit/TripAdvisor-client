@@ -31,7 +31,6 @@ const page = ({ searchParams }: { searchParams: any }) => {
     data,
     fetchNextPage,
     isLoading,
-    refetch,
     isFetching,
     isPending,
     hasNextPage,
@@ -99,7 +98,6 @@ const page = ({ searchParams }: { searchParams: any }) => {
     }
     router.push(`/news-feed?${params.toString()}`);
   };
-  console.log(data);
   return (
     <Container>
       <div className="grid md:grid-cols-2 gap-5 my-10">

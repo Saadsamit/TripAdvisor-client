@@ -21,7 +21,7 @@ const page = () => {
   const methods = useForm({
     resolver: zodResolver(LogInScheme),
     defaultValues: {
-      email: "john.doe@example.com",
+      email: "admin@gmail.com",
       password: "si2002",
     },
   });

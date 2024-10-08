@@ -9,7 +9,7 @@ export const postApi = async (data: FieldValues) => {
   return res?.data;
 };
 
-export const getAllPostApi = async (pageParam = 1, params: TgetAllPost) => {
+export const getAllPostApi = async (pageParam = 1, params?: TgetAllPost) => {
   const { data } = await axiosInstance.get(`/post`, {
     params: { page: pageParam, ...params },
   });
@@ -33,6 +33,11 @@ export const getAUserPostApi = async (id: string) => {
 
 export const myDeletePostApi = async (id: string) => {
   const { data } = await axiosInstance.delete(`/post/my-post/${id}`);
+  return data;
+};
+
+export const myDeletePostAdminApi = async (id: string) => {
+  const { data } = await axiosInstance.delete(`/post/${id}`);
   return data;
 };
 

@@ -20,10 +20,18 @@ export const userLinks = [
 export const adminLinks = [
   {
     href: "/dashboard",
-    label: "link",
+    label: "overview",
   },
   {
-    href: "/dashboard/dd",
-    label: "link",
+    href: "/dashboard/manage-users",
+    label: "Manage Users",
+  },
+  {
+    href: "/dashboard/manage-posts",
+    label: "Manage Posts",
+  },
+  {
+    href: "/dashboard/payments",
+    label: "Payments",
   },
 ];

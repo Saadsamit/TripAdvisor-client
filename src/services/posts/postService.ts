@@ -18,6 +18,7 @@ import {
   myUpdatePostApi,
   getAUserPostApi,
   getAllPostApi,
+  myDeletePostAdminApi,
 } from "./postApi";
 import { TgetAllPost } from "@/src/types/ApiTypes";
 
@@ -52,6 +53,25 @@ const myDeletePost = () => {
     onSettled(data) {
       if (data?.success) {
         queryClient.invalidateQueries({ queryKey: [`myPosts`] });
+        toast.success(data?.message, { ...toastTheme });
+      } else {
+        toast.error(data?.message || "Something went wrong!", {
+          ...toastTheme,
+        });
+      }
+    },
+  });
+};
+
+const myDeletePostAdmin = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["deletePostAdmin"],
+    mutationFn: async (id: string) => await myDeletePostAdminApi(id),
+    onSettled(data) {
+      if (data?.success) {
+        queryClient.invalidateQueries({ queryKey: [`myPosts`] });
+        queryClient.invalidateQueries({ queryKey: [`getAllAdmin`] });
         toast.success(data?.message, { ...toastTheme });
       } else {
         toast.error(data?.message || "Something went wrong!", {
@@ -157,7 +177,7 @@ const followUser = () => {
   });
 };
 
-const getAllPost = (data: TgetAllPost) => {
+const getAllPost = (data?: TgetAllPost) => {
   return useInfiniteQuery({
     queryKey: ["getAllPost"],
     queryFn: async ({ pageParam = 1 }) => await getAllPostApi(pageParam, data),
@@ -172,6 +192,13 @@ const getAllPost = (data: TgetAllPost) => {
   });
 };
 
+const getAllAdmin = () => {
+  return useQuery({
+    queryKey: ["getAllAdmin"],
+    queryFn: async () => await getAllPostApi(1, { all: true }),
+  });
+};
+
 const postService = {
   createPost,
   myPosts,
@@ -182,7 +209,9 @@ const postService = {
   myDeletePost,
   myUpdatePost,
   getAUserPost,
+  getAllAdmin,
   getAllPost,
+  myDeletePostAdmin,
 };
 
 export default postService;

@@ -1,4 +1,5 @@
 import { SVGProps } from "react";
+import { TUser } from "./userType";
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
   size?: number;
@@ -10,7 +11,8 @@ export type TCategory = {
 };
 
 export type TPayment = {
-  user: string;
+  _id: string;
+  user: TUser;
   tranId: string;
   price: number;
   status: string;

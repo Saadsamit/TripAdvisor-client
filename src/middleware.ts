@@ -6,11 +6,21 @@ const AuthRoutes = ["/login", "/signup"];
 
 type Role = keyof typeof roleBasedRoutes;
 
-const commonRoutes = ["/news-feed", "/profile", "/dashboard"]
+const commonRoutes = ["/news-feed", "/profile", "/dashboard"];
 
 const roleBasedRoutes = {
-  admin: [...commonRoutes,],
-  user: [ ...commonRoutes, "/dashboard/posts", "/dashboard/followers", "/dashboard/following"],
+  admin: [
+    ...commonRoutes,
+    "/dashboard/manage-users",
+    "/dashboard/manage-posts",
+    "/dashboard/payments",
+  ],
+  user: [
+    ...commonRoutes,
+    "/dashboard/posts",
+    "/dashboard/followers",
+    "/dashboard/following",
+  ],
 };
 
 export async function middleware(request: NextRequest) {
@@ -23,7 +33,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.next();
     } else {
       return NextResponse.redirect(
-        new URL(`/login?redirect=${pathname}`, request.url),
+        new URL(`/login?redirect=${pathname}`, request.url)
       );
     }
   }
@@ -40,5 +50,13 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard", "/profile", "/news-feed/:page*", "/news-feed", "/dashboard:page*", "/login", "/signup"],
+  matcher: [
+    "/dashboard",
+    "/profile",
+    "/news-feed/:page*",
+    "/news-feed",
+    "/dashboard/:page*",
+    "/login",
+    "/signup",
+  ],
 };
