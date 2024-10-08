@@ -22,6 +22,7 @@ const PostCardLoading = () => {
           <div className="flex gap-1">
             <Skeleton className="h-8 w-16 rounded-xl" />
           </div>
+          <Skeleton className="h-8 w-16 rounded-md" />
         </CardFooter>
       </Card>
     );

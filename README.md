@@ -1,53 +1,59 @@
-# Next.js & NextUI Template
 
-This is a template for creating applications using Next.js 14 (app directory) and NextUI (v2).
+---
 
-[Try it on CodeSandbox](https://githubbox.com/nextui-org/next-app-template)
+# Project Name : [WashNGo](https://washngo.vercel.app)
 
-## Technologies Used
+## Introduction
 
-- [Next.js 14](https://nextjs.org/docs/getting-started)
-- [NextUI v2](https://nextui.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Tailwind Variants](https://tailwind-variants.org)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [next-themes](https://github.com/pacocoursey/next-themes)
+Welcome to Travel Tips & Destination Guides, your go-to resource for discovering the world's most fascinating places, enriching travel experiences, and invaluable tips for every traveler. Whether you're a seasoned globetrotter or a first-time adventurer, our platform is designed to inspire and empower you to explore the globe with confidence and ease.
 
-## How to Use
+## Project Description
 
-### Use the template with create-next-app
+Travel Tips & Destination Guides aims to provide a comprehensive collection of travel information and resources. Our mission is to make travel accessible, enjoyable, and enriching for everyone.
 
-To create a new project based on this template using `create-next-app`, run the following command:
+## Features
+- comment system
+- follow unfollow system
+- upvote downvote system
+- Infinite Scrolling system
+- login system roles `admin` `user`,
+- user and admin can update ther profile
+- integrated payment system
 
-```bash
-npx create-next-app -e https://github.com/nextui-org/next-app-template
-```
+## Technology Stack
 
-### Install dependencies
+- React
+- Typescript
+- Next js
+- Next Ui
+- Tailwind
+- Tanstack Query
+- React Hook Form
+- Express
+- Node.js
+- MongoDB
+- Mongoose
 
-You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
+## Installation Guideline
 
-```bash
-npm install
-```
 
-### Run the development server
+### Prerequisites
 
-```bash
-npm run dev
-```
+- Node (^20.14.10)
 
-### Setup pnpm (optional)
+### Installation Steps
 
-If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
+1. Step-by-step instructions on how to install the project.
+2. Provide code examples or commands for clarity.
 
-```bash
-public-hoist-pattern[]=*@nextui-org/*
-```
+### Configuration
 
-After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
+1. Create a `.env.local` file in the root directory of the project.
+2. Add necessary configuration variables in the `.env.local` file.
+   Example:
+   ```bash
+    NEXT_PUBLIC_SERVER_LOCAL_URL=http://localhost:7000/api
 
-## License
-
-Licensed under the [MIT license](https://github.com/nextui-org/next-app-template/blob/main/LICENSE).
+    NEXT_PUBLIC_SERVER_HOST_URL=https://trip-advisor-server.vercel.app/api
+   ```
+---

@@ -35,8 +35,11 @@ import categoryService from "@/src/services/category/categoryService";
 import { TCategory } from "@/src/types/comment";
 import toast from "react-hot-toast";
 import toastTheme from "@/src/styles/toastTheme";
+import { usePDF } from 'react-to-pdf';
+import { IoMdDownload } from "react-icons/io";
 
 const PostCard = ({ data, feedPage }: { data: TPost; feedPage?: boolean }) => {
+  const { toPDF, targetRef } = usePDF({filename: 'page.pdf'});
   const searchParams = useSearchParams()
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const router = useRouter();
@@ -91,8 +94,8 @@ const PostCard = ({ data, feedPage }: { data: TPost; feedPage?: boolean }) => {
 
   const cardBody = <div dangerouslySetInnerHTML={{ __html: data?.post }} />;
   return (
-    <div>
-      <Card className={`${!feedPage && "h-fit"}`}>
+    <div ref={targetRef}>
+      <Card className={`${!feedPage && "h-fit"}`} >
         <CardHeader className="justify-between">
           <div className="flex gap-5">
             <Avatar
@@ -207,6 +210,9 @@ const PostCard = ({ data, feedPage }: { data: TPost; feedPage?: boolean }) => {
               {postDislikePending ||
                 (Downvote ? <BiSolidDownvote /> : <BiDownvote />)}
             </Button>
+          </div>
+          <div>
+          <Button onClick={() => toPDF()} size="sm" className="bg-sky-400 text-white"><IoMdDownload className="text-lg" /> PDF</Button>
           </div>
         </CardFooter>
       </Card>
